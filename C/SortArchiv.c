@@ -1,6 +1,7 @@
 //Сортировка архива
 #include "desunit.h"
-
+#include <stdio.h>
+#include <string.h>
 #include "baseunit.h"
  //---------------------------------------------SortArchive()
 //Сортировка архива по возрастанию кода изделия. Просмотр дека 
@@ -22,12 +23,11 @@ int SortArchive() {
 
     for (Runi = Lp; Runi != NULL; Runi = Runi->Next) // это сортировка школьным (не меняй)
         for (Runj = Lp; Runj != NULL; Runj = Runj->Next)
-            if (Runi->Inf.Kod < Runj->Inf.Kod) {
+            if (strcmp(Runi->Inf.ActualKod, Runj->Inf.ActualKod) < 0) {
                 Product = Runi->Inf;
                 Runi->Inf = Runj->Inf;
                 Runj->Inf = Product;
             }
-
     WriteFileOut(Lp, Rp); //запись дека в архивный файл
     Lp = Rp = NULL;
     printf("\nСортировка архива закончена.\n");
