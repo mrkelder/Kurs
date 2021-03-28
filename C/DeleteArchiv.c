@@ -1,13 +1,13 @@
 //Удаление компонента из архива изделий
 #include "desunit.h"
-
+#include <string.h>
 #include "baseunit.h"
 
 //----------------------------------DeleteArchive()
 //Удаление компонента из архива изделий. 
 //Просмотр дека слева направо
 int DeleteArchive() {
-    int Kod, KodPr;
+    char Kod[10], KodPr[10];
     unsigned char Cond;
     DynProduct* Lp, * Rp; // левый и правый указатели дека 
     DynProduct* Del; // указатель на удаляемый элемент из дека
@@ -23,11 +23,11 @@ int DeleteArchive() {
     ReadFileOut(&np, &Lp, &Rp); //создается архивный дек
     //ввод кода удаляемого изделия
     printf("\nУкажите код удаляемого компонента : ");
-    Kod = (int)ceil(GetNumber(0, 999999, 1, 0, 6, 0));
+    scanf("%s", &Kod);
     Cond = 0;
-    KodPr = Kod;
+    strncpy(KodPr, Kod, 10);
     //поиск введенного кода в деке
-    if (Kod == Lp->Inf.Kod) { //удаляется крайний левый компонент 
+    if (strcmp(Kod, Lp->Inf.ActualKod) == 0) { //удаляется крайний левый компонент 
         Cond = 1;
         Del = Lp;
         Lp = Lp->Next;
@@ -38,7 +38,7 @@ int DeleteArchive() {
    //просмотр с левой стороны
         Run = Lp->Next;
         while (Run != NULL) {
-            if (Kod == Run->Inf.Kod) { //в деке найден компонент с заданным кодом
+            if (strcmp(Kod, Run->Inf.ActualKod) == 0) { //в деке найден компонент с заданным кодом
                 Cond = 1;
                 Del = Run;
                 if (Run == Rp) //удаляется крайний правый компонент
@@ -68,7 +68,7 @@ int DeleteArchive() {
     {
         DisposeProduct(Lp, Rp);
         Lp = Rp = NULL;
-        printf("\nВ архиве нет компонента с кодом %6d", KodPr);
+        printf("\nВ архиве нет компонента с кодом %s", KodPr);
     }
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");
     return 0;
