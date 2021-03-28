@@ -4,8 +4,7 @@
 #include <string.h>
 #include "baseunit.h"
  //---------------------------------------------SortArchive()
-//Сортировка архива по возрастанию кода изделия. Просмотр дека 
-//с левой стороны и сортировка "школьным" методом по возрастанию
+// Сортировка происходит от товара с наименьшим количеством продаж до товара с наибольшим количеством продаж
 int SortArchive() {
     int np;
     ProductType Product;
@@ -23,7 +22,7 @@ int SortArchive() {
 
     for (Runi = Lp; Runi != NULL; Runi = Runi->Next) // это сортировка школьным (не меняй)
         for (Runj = Lp; Runj != NULL; Runj = Runj->Next)
-            if (strcmp(Runi->Inf.ActualKod, Runj->Inf.ActualKod) < 0) {
+            if (Runi->Inf.Sold < Runj->Inf.Sold) { // strcmp(Runi->Inf.ActualKod, Runj->Inf.ActualKod) < 0
                 Product = Runi->Inf;
                 Runi->Inf = Runj->Inf;
                 Runj->Inf = Product;

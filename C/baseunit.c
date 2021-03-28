@@ -205,7 +205,6 @@ int WriteFileOut(DynProduct* Lp, DynProduct* Rp) {
         wait_press_key("\nДля завершения программы нажмите любую клавишу\n");
         exit(0);
     }
-    ReversProduct(&Lp, &Rp); // реверс стека
     Run = Lp;
     while (Run != NULL) { //цикл записи структур в файл
         Product = Run->Inf;
