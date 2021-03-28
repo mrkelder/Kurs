@@ -10,7 +10,7 @@ int SortArchive() {
     ProductType Product;
     DynProduct* Runi;
     DynProduct* Runj; // текущие указатели дека архива 
-    DynProduct* Lp, * Rp; // левый и правый указатели дека (очереди или стека)
+    DynProduct* Lp, * Rp; // левый и правый указатели стека (*Lp и есть сам стек)
     if (!SignArchive) //архив не создан
     {
         printf("\nАрхив не создан. Режим отменяется.\n");

@@ -22,9 +22,6 @@
     <ClInclude Include="C\SortArchiv.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\test\test.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="C\AddArchiv.C" />
     <ClCompile Include="C\baseunit.c" />
     <ClCompile Include="C\CheckInpFile.c" />

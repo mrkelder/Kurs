@@ -177,15 +177,7 @@ int ReadFileOut(int* np, DynProduct** Lp, DynProduct** Rp) {
         Run = (DynProduct*)malloc(sizeof(DynProduct));
         (*np)++;
         Run->Inf = Product; //заполнение информационной части       
-        Run->Prev = NULL; //связывание указателей
-        if (*Rp == NULL) {
-            *Rp = Run;
-            Run->Next = NULL;
-        }
-        else {
-            (*Lp)->Prev = Run;
-            Run->Next = *Lp;
-        }
+        Run->Next = *Lp;
         *Lp = Run;
     }
     fclose(fArBin);
