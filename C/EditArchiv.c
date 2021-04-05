@@ -30,7 +30,7 @@ int ChangeArchive() {
     printf("\nУкажите код изделия изменяемого компонента: ");
     scanf("%s", &Kod4);
     for (int loop = 0; loop < 10; loop++) Kod44[loop] = Kod4[loop];
-    printf("Код изделия %s", Kod4);
+    printf("Код изделия %s\n", Kod4);
     Run = Lp;
     Cond = 0;
     while (Run != NULL) //цикл поиска введенного кода в деке
@@ -39,8 +39,6 @@ int ChangeArchive() {
             Cond = 1;
             //считывание текущих значений 
             Product = Run->Inf;
-            printf("\nУкажите следующие реквизиты: \n");
-            printf("   ед.измерения  цена  план-1  план-2  факт-1  факт-2\n");
             MakeComponent(&Product); //ввод изменений в полях
             Run->Inf = Product; //запись измененной структуры в дек
             WriteFileOut(Lp, Rp); //запись дека в архивный файл
@@ -78,7 +76,7 @@ void MakeComponent(ProductType* Product) {
         Product->Plan[1], Product->Fact[0], Product->Fact[1]);
     */
 
-    printf("Тек.зн. %s  %6d %s  %6.2f %6d %6d %6d\n",
+    printf("Тек.зн. %s  %d %s %.2f %d %d %d\n",
         Product->ActualKod, Product->Amount,Product->Dimens, Product->Price, Product->RecentlyArrived, Product->Sold, Product->Possess);
     printf("Ввести: код, кол-во, цену, количество полученных за 24 часа, проданных за 24 часа, имеющихся на складе\n");
     fflush(stdin); //очистка буфера клавиатуры
