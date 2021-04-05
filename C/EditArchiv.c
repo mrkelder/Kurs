@@ -10,7 +10,10 @@ void MakeComponent(ProductType* Product);
 // Просмотр дека слева направо
 // Возвращает 1, если архив не создан, 0 - создан
 int ChangeArchive() {
-    int Kod, Kod1, np;
+    // Оставь здесь int Kod, Kod1; , чтобы не испортить память
+    int loop;
+    char Kod4[10], Kod44[10];
+    int np;
     unsigned char Cond = 0;
     ProductType Product;
     DynProduct* Lp, * Rp; // левый и правый указатели очереди 
@@ -24,19 +27,19 @@ int ChangeArchive() {
     //формирование архивного дека
     ReadFileOut(&np, &Lp, &Rp);
     //ввод кода изменяемого компонента
-    printf("\nУкажите код изделия изменяемого компонента :");
-    Kod = (int)ceil(GetNumber(0, 999999, 1, 0, 6, 0));
-    Kod1 = Kod;
-    printf("Kod = %6d", Kod1);
+    printf("\nУкажите код изделия изменяемого компонента: ");
+    scanf("%s", &Kod4);
+    for (int loop = 0; loop < 10; loop++) Kod44[loop] = Kod4[loop];
+    printf("Код изделия %s", Kod4);
     Run = Lp;
     Cond = 0;
     while (Run != NULL) //цикл поиска введенного кода в деке
     {
-        if (Kod == Run->Inf.Kod) { //компонент найден
+        if (/*Kod == Run->Inf.Kod*/ strcmp(Kod4, Run->Inf.ActualKod) == 0) { //компонент найден strcmp(str, str1) == 0
             Cond = 1;
             //считывание текущих значений 
             Product = Run->Inf;
-            printf("\n          Укажите следующие реквизиты :\n");
+            printf("\nУкажите следующие реквизиты: \n");
             printf("   ед.измерения  цена  план-1  план-2  факт-1  факт-2\n");
             MakeComponent(&Product); //ввод изменений в полях
             Run->Inf = Product; //запись измененной структуры в дек
@@ -48,7 +51,7 @@ int ChangeArchive() {
         Run = Run->Next;
     }
     if (!Cond) //компонент не найден
-        printf("\nВ архиве нет компонента с кодом %d\n", Kod1);
+        printf("\nВ архиве нет компонента с кодом %s\n", Kod44);
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");
     return 0;
 } //-----СhangeArchive() 
@@ -63,43 +66,62 @@ int ChangeArchive() {
 //последние поля изменяться не будут.
 void MakeComponent(ProductType* Product) {
     int k = 0;
-    char Sa[80];
+    char Sa[100];
     char* token;
     char Seps[] = " \t\n";
+    FILE* typing;
 
     //печать на экран текущих значений
+    /*
     printf("Тек.зн. %5s  %6.2f  %6.0f  %6.0f  %6.0f  %6.0f\n",
         Product->Dimens, Product->Price, Product->Plan[0],
         Product->Plan[1], Product->Fact[0], Product->Fact[1]);
+    */
+
+    printf("Тек.зн. %s  %6d %s  %6.2f %6d %6d %6d\n",
+        Product->ActualKod, Product->Amount,Product->Dimens, Product->Price, Product->RecentlyArrived, Product->Sold, Product->Possess);
+    printf("Ввести: код, кол-во, цену, количество полученных за 24 часа, проданных за 24 часа, имеющихся на складе\n");
     fflush(stdin); //очистка буфера клавиатуры
     /*
       //очистка буфера клавиатуры(если fflush(stdin) не работает)
       rewind(stdin);
     */
+    // printf("ok");
+    rewind(stdin);
     gets(Sa); //считывание строки с клавиатуры
+    // printf("ok");
+
+    //typing = stdin;
+
+    //while (fgets(Sa, 100, typing)) {}
+
     token = strtok(Sa, Seps); //Выделение первого слова
     while (token != NULL) //цикл выделения слов из исходной строки
     { // и запись значений в поля структуры
         k++;
         switch (k) {
-        case 1:
+        /*case 1:
             strcpy(Product->Dimens, token);
             FillString(Product->Dimens, 5, 1);
+            break;*/
+        case 1:
+            strcpy(Product->ActualKod, token);
+            FillString(Product->ActualKod, 10, 1); // пропробуй поменять 1 на 0
             break;
         case 2:
-            sscanf_s(token, "%lf", &Product->Price);
+            sscanf_s(token, "%d", &Product->Amount);
             break;
         case 3:
-            sscanf_s(token, "%lf", &Product->Plan[0]);
+            sscanf_s(token, "%lf", &Product->Price);
             break;
         case 4:
-            sscanf_s(token, "%lf", &Product->Plan[1]);
+            sscanf_s(token, "%d", &Product->RecentlyArrived);
             break;
         case 5:
-            sscanf_s(token, "%lf", &Product->Fact[0]);
+            sscanf_s(token, "%d", &Product->Sold);
             break;
         case 6:
-            sscanf_s(token, "%lf", &Product->Fact[1]);
+            sscanf_s(token, "%d", &Product->Possess);
             break;
         }
         token = strtok(NULL, Seps); //Выделение очередного слова
