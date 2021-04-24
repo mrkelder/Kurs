@@ -7,7 +7,7 @@
 //Удаление компонента из архива изделий. 
 //Просмотр дека слева направо
 int DeleteArchive() {
-    char Kod[10], KodPr[10];
+    char Kod[11], KodPr[11];
     unsigned char Cond;
     DynProduct* Lp, * Rp; // левый и правый указатели дека 
     DynProduct* Del; // указатель на удаляемый элемент из дека

@@ -12,7 +12,7 @@ void MakeComponent(ProductType* Product);
 int ChangeArchive() {
     // Оставь здесь int Kod, Kod1; , чтобы не испортить память
     int loop;
-    char Kod4[10], Kod44[10];
+    char Kod4[11], Kod44[11];
     int np;
     unsigned char Cond = 0;
     ProductType Product;
