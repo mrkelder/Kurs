@@ -45,8 +45,7 @@ void CheckFiles() {
         //Проверка параметров записей в "input.txt"
         ProdParameters(Products, np, fArTxtName);
         //Проверка параметров записей в "add.txt"
-        ProdParameters(AddProducts, nd, fAddTxtName);
-
+        //ProdParameters(AddProducts, nd, fAddTxtName);
     }
     if (FatalError) //фатальные ошибки были
         sprintf(Sr, "\nСкорректируйте исходные файлы\n");
@@ -97,10 +96,11 @@ void FormatFileProduct(FILE* F, char* FileName, int* nf,
             }
             switch (k) { //заполнение полей структуры
             case 1:
-                Code = sscanf_s(token, "%d", &Product.NumberShop);
+                Code = strcpy(&Product.ActualKod, token);
+                FillString(&Product.ActualKod, 10, 1);
                 break;
             case 2:
-                Code = sscanf_s(token, "%d", &Product.Kod);
+                Code = sscanf_s(token, "%d", &Product.Amount);
                 break;
             case 3:
                 if (strlen(token) > 4) //Ед.изм. больше 4 символов
@@ -119,16 +119,13 @@ void FormatFileProduct(FILE* F, char* FileName, int* nf,
                 Code = sscanf_s(token, "%lf", &Product.Price);
                 break;
             case 5:
-                Code = sscanf_s(token, "%lf", &Product.Plan[0]);
+                Code = sscanf_s(token, "%d", &Product.RecentlyArrived);
                 break;
             case 6:
-                Code = sscanf_s(token, "%lf", &Product.Plan[1]);
+                Code = sscanf_s(token, "%d", &Product.Sold);
                 break;
             case 7:
-                Code = sscanf_s(token, "%lf", &Product.Fact[0]);
-                break;
-            case 8:
-                Code = sscanf_s(token, "%lf", &Product.Fact[1]);
+                Code = sscanf_s(token, "%d", &Product.Possess);
                 break;
             }
             if ((k != 3) && (Code < 1)) { //ошибка преобразования слова к числовому параметру
@@ -141,10 +138,10 @@ void FormatFileProduct(FILE* F, char* FileName, int* nf,
             }
             token = strtok(NULL, Seps); //Выделение следующего слова
         }
-        if (k < 8) { //количество параметров в строке меньше 8
+        if (k < 7) { //количество параметров в строке меньше 7
             FatalError = 1;
             sprintf(Sr,
-                "Файл %s : в строке %d меньше 8 элементов\n", FileName, i + 1);
+                "Файл %s : в строке %d меньше 7 элементов\n", FileName, i + 1);
             //запись сообщения в файл ошибок
             fwrite(Sr, sizeof(string80), 1, FileError);
         }
@@ -181,7 +178,8 @@ void FormatFileKodif() {
             }
             switch (k) {
             case 1:
-                Code = sscanf_s(token, "%d", &Kodif.Kod);
+                Code = strcpy(&Kodif.ActualKod, token);
+                FillString(&Kodif.ActualKod, 10, 1);
                 if (Code < 1) { //не удалось преобразовать 1-е слово в числовой код
                     FatalError = 1;
                     sprintf(Sr,
@@ -309,20 +307,18 @@ void ReadAndCheckSpaces(FILE* F, char* FileName, int* nf,
 void CheckProdDiapason(char* FileName, int nf, ProductAr* Prod) {
     int i;
     for (i = 0; i < nf; i++) {
-        if (((*Prod)[i].NumberShop < 1) || ((*Prod)[i].NumberShop > 99))
-            ReportError1(FileName, i, 1, 1, 99);
-        if (((*Prod)[i].Kod < 100000) || ((*Prod)[i].Kod > 999999))
-            ReportError1(FileName, i, 2, 100000, 999999);
+        if (strlen((*Prod)[i].ActualKod) != 10)
+            printf("Файл %s : в строке %d элемент 1 вне пределов 0000000000 .. 9999999999\n", FileName, i + 1);
+        if (((*Prod)[i].Amount < 0) || ((*Prod)[i].Amount > 10000))
+            ReportError1(FileName, i, 2, 0, 10000);
         if (((*Prod)[i].Price < 0.1) || ((*Prod)[i].Price > 999.99))
             ReportError2(FileName, i, 4, 0.1, 1000);
-        if (((*Prod)[i].Plan[0] < 10) || ((*Prod)[i].Plan[0] > 9999))
+        if (((*Prod)[i].RecentlyArrived < 0) || ((*Prod)[i].RecentlyArrived > 9999))
             ReportError1(FileName, i, 5, 10, 10000);
-        if (((*Prod)[i].Plan[1] < 10) || ((*Prod)[i].Plan[1] > 9999))
-            ReportError1(FileName, i, 6, 10, 10000);
-        if (((*Prod)[i].Fact[0] < 10) || ((*Prod)[i].Fact[0] > 9999))
-            ReportError1(FileName, i, 7, 10, 10000);
-        if (((*Prod)[i].Fact[1] < 10) || ((*Prod)[i].Fact[1] > 9999))
-            ReportError1(FileName, i, 8, 10, 10000);
+        if (((*Prod)[i].Sold < 0) || ((*Prod)[i].Sold > 9999))
+            ReportError1(FileName, i, 5, 10, 10000);
+        if (((*Prod)[i].Possess < 0) || ((*Prod)[i].Possess > 9999))
+            ReportError1(FileName, i, 5, 10, 10000);
     }
 } //-----CheckProdDiapason()
 //-------------------------------------CheckKodifDiapason()
@@ -330,22 +326,23 @@ void CheckProdDiapason(char* FileName, int nf, ProductAr* Prod) {
 void CheckKodifDiapason() {
     int i;
     for (i = 0; i < nk; i++)
-        if ((Kodifs[i].Kod < 100000) || (Kodifs[i].Kod > 999999)) {
+        if (strlen(Kodifs[i].ActualKod) != 10/*(Kodifs[i].Kod < 100000) || (Kodifs[i].Kod > 999999)*/) {
             FatalError = 1;
             sprintf(Sr,
                 "Файл Kodif.txt: в строке %d элемент 1 "
-                "вне пределов 100000..999999\n", i + 1);
+                "вне пределов 0000000000..9999999999\n", i + 1);
             fwrite(Sr, sizeof(string80), 1, FileError);
         }
 } //End { CheckKodifDiapason };
 //-------------------------------------KodifParameters()
 //Проверка дублирования параметра Kod в файле "Kodif.txt"
 void KodifParameters() {
-    int i, j, Kod;
+    int i, j;
+    char Kod[11];
     for (i = 0; i < nk - 1; i++) {
-        Kod = Kodifs[i].Kod;
+        strcpy(Kod, Kodifs[i].ActualKod);
         for (j = i + 1; j < nk; j++)
-            if (Kod == Kodifs[j].Kod) { //код дублируется
+            if (strcmp(Kod, Kodifs[j].ActualKod) == 0) { //код дублируется
                 FatalError = 1;
                 sprintf(Sr,
                     "Файл Kodif.txt: равные значения KodProduct в строках %d и %d (%d)\n",
@@ -365,13 +362,14 @@ void ProdParameters(ProductAr* Prod, int n, char* FileName) {
         "кг  "
       }
     };
-    int i, j, k, Kod, Cond;
+    int i, j, k, Cond;
+    char Kod[11];
     char Meas[5];
     //{ Проверка дублирования параметра KodProduct }
     for (i = 0; i < n - 1; i++) {
-        Kod = (*Prod)[i].Kod;
         for (j = i + 1; j < n; j++)
-            if (Kod == (*Prod)[j].Kod) { //код дублируется
+            strcpy(Kod, (*Prod)[i].ActualKod);
+            if (strcmp(Kod, (*Prod)[j].ActualKod) == 0) { //код дублируется
                 FatalError = 1;
                 sprintf(Sr,
                     "Файл %s : равные значения KodProduct в строках %d и %d (%d)\n",
@@ -382,12 +380,12 @@ void ProdParameters(ProductAr* Prod, int n, char* FileName) {
 
     // { Проверка наличия параметра KodProduct в кодификаторе }
     for (i = 0; i < n; i++) {
-        Kod = (*Prod)[i].Kod;
+        strcpy(Kod, (*Prod)[i].ActualKod);
         k = SearchKodif(Kod, nk); //поиск в Kod кодификаторе
         if (k == -1) { //Kod в кодификаторе не найден
             FatalError = 1;
             sprintf(Sr,
-                "Файл %s : код изделия %d (строка %d) отсутствует в кодификаторе\n",
+                "Файл %s : код изделия %s (строка %d) отсутствует в кодификаторе\n",
                 FileName, Kod, i + 1);
             fwrite(Sr, sizeof(string80), 1, FileError);
         }

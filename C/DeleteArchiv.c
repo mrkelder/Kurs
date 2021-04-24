@@ -22,7 +22,7 @@ int DeleteArchive() {
     }
     ReadFileOut(&np, &Lp, &Rp); //создается архивный дек
     //ввод кода удаляемого изделия
-    printf("\nУкажите код удаляемого компонента : ");
+    printf("\nУкажите код удаляемого компонента: ");
     scanf("%s", &Kod);
     Cond = 0;
     strncpy(KodPr, Kod, 10);

@@ -89,19 +89,19 @@ void UsesDevice() {
 //Двоичный поиск в массиве кодификатора Kodifs
 //элемента с кодом Kod. Возвращает индекс найденного
 //элемента, -1, если элемент не найден
-int SearchKodif(int Kod, int nk) {
+int SearchKodif(char Kod[11], int nk) {
     int i1, i2, m;
     int SearchKod = -1; //возвращаемое значение
     i1 = 0;
     i2 = nk - 1; //левая и правая границы диапазона
     while (i1 <= i2) {
         m = (i1 + i2) / 2; //середина диапазона
-        if (Kod == Kodifs[m].Kod) {
+        if (strcmp(Kod, Kodifs[m].ActualKod) == 0) {
             SearchKod = m;
             break; //Элемент найден
         }
         else
-            if (Kod > Kodifs[m].Kod)
+            if (strcmp(Kod, Kodifs[m].ActualKod) > 0)
                 i1 = m + 1; //Изменение левой границы
             else
                 i2 = m - 1; //Изменение правой границы
