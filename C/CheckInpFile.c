@@ -364,6 +364,7 @@ void ProdParameters(ProductAr* Prod, int n, char* FileName) {
     };
     int i, j, k, Cond;
     char Kod[11];
+    char Kod1[11];
     char Meas[5];
     //{ Проверка дублирования параметра KodProduct }
     for (i = 0; i < n - 1; i++) {
@@ -372,7 +373,7 @@ void ProdParameters(ProductAr* Prod, int n, char* FileName) {
             if (strcmp(Kod, (*Prod)[j].ActualKod) == 0) { //код дублируется
                 FatalError = 1;
                 sprintf(Sr,
-                    "Файл %s : равные значения KodProduct в строках %d и %d (%d)\n",
+                    "Файл %s : равные значения KodProduct в строках %d и %d (%s)\n",
                     FileName, i + 1, j + 1, Kod);
                 fwrite(Sr, sizeof(string80), 1, FileError);
             }
@@ -380,13 +381,13 @@ void ProdParameters(ProductAr* Prod, int n, char* FileName) {
 
     // { Проверка наличия параметра KodProduct в кодификаторе }
     for (i = 0; i < n; i++) {
-        strcpy(Kod, (*Prod)[i].ActualKod);
-        k = SearchKodif(Kod, nk); //поиск в Kod кодификаторе
+        strcpy(Kod1, (*Prod)[i].ActualKod);
+        k = SearchKodif(Kod1, nk); //поиск в Kod кодификаторе
         if (k == -1) { //Kod в кодификаторе не найден
             FatalError = 1;
             sprintf(Sr,
                 "Файл %s : код изделия %s (строка %d) отсутствует в кодификаторе\n",
-                FileName, Kod, i + 1);
+                FileName, Kod1, i + 1);
             fwrite(Sr, sizeof(string80), 1, FileError);
         }
     }
