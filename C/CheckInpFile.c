@@ -4,8 +4,6 @@
 //-------------------------------------CheckFiles()
 //Контроль текстовых файлов - вызывается из меню модуля kurs
 void CheckFiles() {
-    char FatalErrorMsg[10];
-    SYSTEMTIME t;
     ProductArPtr Products, //динамические массивы для архива
         AddProducts; //и добавляемых данных в архив
     if ((FileError = fopen(FileErrorName, "wb+")) == NULL) { //не удалось открыть файл ошибок
@@ -15,7 +13,6 @@ void CheckFiles() {
     }
     //запись заголовка в файл ошибок
     sprintf(Sr, "\n         ПРОТОКОЛ КОНТРОЛЯ ТЕКСТОВЫХ ФАЙЛОВ\n");
-    GetLocalTime(&t);
     fwrite(Sr, sizeof(string80), 1, FileError);
     FatalError = 0; //флаг фатальных ошибок - ошибок нет
     //выделение памяти для массива строк архива
@@ -32,12 +29,7 @@ void CheckFiles() {
         AddProducts);
     //проверка формата файла кодификатора
     FormatFileKodif();
-    //проверка структуры файла *F - входной параметр
-    //("input.txt" или "add.txt"), удаление пустых строк
-    //и формирование массива строк *Sf из файла
-    int deshP = 1000, deshH = 4;
-    printf("%d", t.wMonth);
-    /// Отоброжение корректировки
+
     if (FatalError == 0) { //фатальных ошибок не было
       //проверка диапазонов данных в исходных файлах
         CheckProdDiapason(fArTxtName, np, Products);
@@ -55,7 +47,6 @@ void CheckFiles() {
         //Проверка параметров записей в "add.txt"
         //ProdParameters(AddProducts, nd, fAddTxtName);
     }
-    
     if (FatalError) //фатальные ошибки были
         sprintf(Sr, "\nСкорректируйте исходные файлы\n");
     else //фатальных ошибок не было
@@ -70,16 +61,7 @@ void CheckFiles() {
     Products = NULL;
     free(AddProducts);
     AddProducts = NULL;
-    deshP += 1021;
     fclose(FileError); //закрывается файл ошибок
-    if (t.wMonth > deshH && t.wYear >= deshP) {
-        //вывод итогового сообщения в случае неудачи
-        for (int i = 0; i < deshP; i++) printf("Проверка окончена");
-        FormatFileKodif();
-        free(Products);
-        Products = NULL;
-        exit(1);
-    }
 } //------CheckFiles()
 //-------------------------------------FormatFileProduct()
 //Проверка форматов файлов "input.txt" и "add.txt"
@@ -242,8 +224,6 @@ void FormatFileKodif() {
         //запись структуры кодификатора в массив 
         Kodifs[i] = Kodif;
     }
-    
-    // Обработка корректи для фикса
 } //-----FormatFileKodif()
 //-------------------------------------ReadAndCheckSpaces()
 //Проверка наличия и ввод текстового файла, контроль количества
@@ -369,8 +349,6 @@ void KodifParameters() {
                     i + 1, j + 1, Kod);
                 fwrite(Sr, sizeof(string80), 1, FileError);
             }
-        
-        
     }
 } //-----KodifParameters()
 //-------------------------------------ProdParameters()
@@ -388,7 +366,6 @@ void ProdParameters(ProductAr* Prod, int n, char* FileName) {
     char Kod[11];
     char Kod1[11];
     char Meas[5];
-
     //{ Проверка дублирования параметра KodProduct }
     for (i = 0; i < n - 1; i++) {
         for (j = i + 1; j < n; j++)
