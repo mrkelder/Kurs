@@ -98,10 +98,6 @@ void MakeComponent(ProductType* Product) {
     { // и запись значений в поля структуры
         k++;
         switch (k) {
-        /*case 1:
-            strcpy(Product->Dimens, token);
-            FillString(Product->Dimens, 5, 1);
-            break;*/
         case 1:
             strcpy(Product->ActualKod, token);
             FillString(Product->ActualKod, 10, 1); // пропробуй поменять 1 на 0
