@@ -32,12 +32,6 @@ typedef struct ProductT // тип компонента архива изделий
 	int RecentlyArrived;    // пребывшие изделия за последние 24 часа
 	int Sold;               // проданные за последние 24 часа
 	int Possess;            // на складе
-
-	/* Useless */
-	int Kod;
-	unsigned	char	NumberShop;	
-	double Plan[2],
-		   Fact[2];
 	} ProductType;	 //синоним типа компонента архива изделий
 
 typedef struct KodifTyp //тип компонента кодификатора изделий 
