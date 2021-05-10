@@ -12,7 +12,7 @@ double GetNumber(double MinNumber, double MaxNumber,
 //Запрос об устройстве для вывода результатов 
 void UsesDevice();
 //Двоичный поиск в массиве кодификатора Kodifs
-int SearchKodif(int Kod, int nk);
+int SearchKodif(char* Kod, int nk);
 //Сортировка кодификатора по возрастанию кода продукта
 void SortKodif(int nk);
 //Реверс дека изделий. Просмотр с левой стороны 
