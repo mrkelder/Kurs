@@ -1,3 +1,3 @@
 # Тупа курсовая 🦍
 
-![Курсовая](https://gph.is/2xmzdou)
+![Курсовая](https://media.giphy.com/media/DZR39sOOQWP8A7UoVs/giphy.gif)
