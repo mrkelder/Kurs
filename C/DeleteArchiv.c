@@ -31,6 +31,7 @@ int DeleteArchive() {
         Cond = 1;
         Del = Lp;
         Lp = Lp->Next;
+        Lp->Prev = NULL;
         free(Del);
     }
     else { //поиск введенного кода в средине дека
@@ -42,7 +43,13 @@ int DeleteArchive() {
                 Del = Run;
                 if (Run == Rp) //удаляется крайний правый компонент
                 {
+                    Rp = Run->Prev;
                     Rp->Next = NULL;
+                }
+                else //удаляется компонент внутри дека
+                {
+                    Run->Next->Prev = Run->Prev;
+                    Run->Prev->Next = Run->Next;
                 }
                 free(Del); //освобождение памяти
                 break;

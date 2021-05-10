@@ -10,7 +10,7 @@
 int AddArchive() {
     ProductType Product;
     DynProduct* Run; // текущий указатель дека архива 
-    DynProduct* Lp,* Rp; // левый и правый указатели дека 
+    DynProduct* Lp, * Rp; // левый и правый указатели дека 
     unsigned char Cond; // флаг 1-код найден в деке
     int Sr, np;
     if (SignArchive == 0) //архив не создан
@@ -53,9 +53,11 @@ int AddArchive() {
                 Run->Next = NULL;
                 if (Lp == NULL) {
                     Lp = Run;
+                    Run->Prev = NULL;
                 }
                 else {
                     Rp->Next = Run;
+                    Run->Prev = Rp;
                 }
                 Rp = Run;
             }
