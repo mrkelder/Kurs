@@ -132,13 +132,11 @@ void ReversProduct(DynProduct** Lp, DynProduct** Rp) {
     while (*Lp != NULL) {
         Run = *Lp;
         *Lp = (*Lp)->Next;
-        Run->Prev = NULL; //связывание указателей
         if (LpBuf == NULL) {
             RpBuf = Run;
             Run->Next = NULL;
         }
         else {
-            (LpBuf)->Prev = Run;
             Run->Next = LpBuf;
         }
         LpBuf = Run;
