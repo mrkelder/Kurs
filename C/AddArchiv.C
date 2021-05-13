@@ -50,16 +50,9 @@ int AddArchive() {
                 Run->Inf = Product; //запись информационной части        
                 //установка указателей для включения нового элемента в дек
                 //Добавление компонент в Дек с правой стороны
-                Run->Next = NULL;
-                if (Lp == NULL) {
-                    Lp = Run;
-                    Run->Prev = NULL;
-                }
-                else {
-                    Rp->Next = Run;
-                    Run->Prev = Rp;
-                }
-                Rp = Run;
+                Run->Next = Lp;
+                Lp = Run;
+                Run = NULL;
             }
             else // (Cond == 1)
                 printf("\nВ архиве уже есть изделие с кодом %6d", Sr);
