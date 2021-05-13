@@ -12,6 +12,7 @@ int DeleteArchive() {
     DynProduct* Lp, * Rp; // левый и правый указатели дека 
     DynProduct* Del; // указатель на удаляемый элемент из дека
     DynProduct* Run; // текущий указатель дека архива 
+    DynProduct* TempRun; // предыдущий элемент до удоляемого
     int np;
     char Sr[80] = "";
     if (!SignArchive) //архив не создан
@@ -31,13 +32,25 @@ int DeleteArchive() {
         Cond = 1;
         Del = Lp;
         Lp = Lp->Next;
-        Lp->Prev = NULL;
         free(Del);
     }
     else { //поиск введенного кода в средине дека
    //просмотр с левой стороны
-        Run = Lp->Next;
+        Run = Lp;
         while (Run != NULL) {
+            if (strcmp(Kod, Run->Inf.ActualKod) == 0) { //удаляется крайний левый компонент 
+                Cond = 1;
+                Del = Run;
+                TempRun->Next = Run->Next;
+                free(Del);
+                break;
+            }
+           TempRun = Run;
+           Run = Run->Next;
+        }
+        Run = NULL;
+
+        /*while (Run != NULL) {
             if (strcmp(Kod, Run->Inf.ActualKod) == 0) { //в деке найден компонент с заданным кодом
                 Cond = 1;
                 Del = Run;
@@ -55,7 +68,7 @@ int DeleteArchive() {
                 break;
             }
             Run = Run->Next;
-        }
+        }*/
     }
     if (Cond == 1) //компонент найден и удален
     {
