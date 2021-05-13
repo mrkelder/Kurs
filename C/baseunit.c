@@ -126,27 +126,19 @@ void SortKodif(int nk) {
 //Реверс дека изделий. Просмотр с левой стороны 
 //Вставка в буферный дек с левой стороны
 void ReversProduct(DynProduct** Lp, DynProduct** Rp) {
-    DynProduct* LpBuf, * RpBuf; // указатели буферного дека архива 
+    DynProduct* LpBuf, *RunBuf; // указатели буферного дека архива 
     DynProduct* Run; // текущий указатель дека архива 
-    LpBuf = RpBuf = NULL;
-    while (*Lp != NULL) {
-        Run = *Lp;
-        *Lp = (*Lp)->Next;
-        Run->Prev = NULL; //связывание указателей
-        if (LpBuf == NULL) {
-            RpBuf = Run;
-            Run->Next = NULL;
-        }
-        else {
-            (LpBuf)->Prev = Run;
-            Run->Next = LpBuf;
-        }
-        LpBuf = Run;
+    LpBuf = NULL;
+    Run = *Lp;
+    while (Run != NULL) {
+        RunBuf = (DynProduct*)malloc(sizeof(DynProduct));
+        RunBuf->Inf = Run->Inf;
+        RunBuf->Next = LpBuf;
+        LpBuf = RunBuf;
+        Run = Run->Next;
     }
     *Lp = LpBuf;
     LpBuf = NULL;
-    *Rp = RpBuf;
-    RpBuf = NULL;
 } //-----ReversProduct() 
 //--------------------------------------------ReadFileOut()
 //Чтение бинарного файла архива и формирование дека структур 

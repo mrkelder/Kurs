@@ -49,26 +49,6 @@ int DeleteArchive() {
            Run = Run->Next;
         }
         Run = NULL;
-
-        /*while (Run != NULL) {
-            if (strcmp(Kod, Run->Inf.ActualKod) == 0) { //в деке найден компонент с заданным кодом
-                Cond = 1;
-                Del = Run;
-                if (Run == Rp) //удаляется крайний правый компонент
-                {
-                    Rp = Run->Prev;
-                    Rp->Next = NULL;
-                }
-                else //удаляется компонент внутри дека
-                {
-                    Run->Next->Prev = Run->Prev;
-                    Run->Prev->Next = Run->Next;
-                }
-                free(Del); //освобождение памяти
-                break;
-            }
-            Run = Run->Next;
-        }*/
     }
     if (Cond == 1) //компонент найден и удален
     {
