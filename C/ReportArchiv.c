@@ -6,7 +6,7 @@
 void WorkUpArchive() {
     int i = 0, j = 0;
     int np;
-    DynProduct* Lp; // левый и правый указатели дека 
+    DynProduct* Beg; // левый и правый указатели дека 
     DynProduct* Run; // текущий указатель дека архива 
     DynProduct* Runi;
     DynProduct* Runj;
@@ -17,17 +17,17 @@ void WorkUpArchive() {
         printf("Архивный файл не создан. Режим отменяется");
         return;
     }
-    ReadFileOut(&np, &Lp); //формирование архивного дека
+    ReadFileOut(&np, &Beg); //формирование архивного дека
 
-    for (Runi = Lp; Runi != NULL; Runi = Runi->Next) // Сортировка по цене
-        for (Runj = Lp; Runj != NULL; Runj = Runj->Next)
+    for (Runi = Beg; Runi != NULL; Runi = Runi->Next) // Сортировка по цене
+        for (Runj = Beg; Runj != NULL; Runj = Runj->Next)
             if (Runi->Inf.Price > Runj->Inf.Price) {
                 Product = Runi->Inf;
                 Runi->Inf = Runj->Inf;
                 Runj->Inf = Product;
             }
 
-    Run = Lp;
+    Run = Beg;
     //печать заголовка таблицы
     WritelnString("                                          ТАБЛИЦА ПРОДАННОГО ТОВАРА");
     WritelnString(" -------------------------------------------------------------------------------------------------------- ");
@@ -35,7 +35,7 @@ void WorkUpArchive() {
     WritelnString("| п/п | товара                           | товара   |          | за 24 часа  | за 24 часа  |             |");
     WritelnString("|--------------------------------------------------------------------------------------------------------|");
 
-    Run = Lp;
+    Run = Beg;
     while (Run != NULL) {
         char tempName[100]; // Временная переменная для хранения имен
         i++;
@@ -63,8 +63,8 @@ void WorkUpArchive() {
 
     i = 0;
     // Сортировка по цене
-    for (Runi = Lp; Runi != NULL; Runi = Runi->Next) 
-        for (Runj = Lp; Runj != NULL; Runj = Runj->Next)
+    for (Runi = Beg; Runi != NULL; Runi = Runi->Next) 
+        for (Runj = Beg; Runj != NULL; Runj = Runj->Next)
             if (Runi->Inf.Possess > Runj->Inf.Possess) {
                 Product = Runi->Inf;
                 Runi->Inf = Runj->Inf;
@@ -72,7 +72,7 @@ void WorkUpArchive() {
             }
 
     // Вывод 5 эл-тов
-    Run = Lp;
+    Run = Beg;
     while (Run != NULL) {
         i++;
         if (i > 5) break;
@@ -88,7 +88,7 @@ void WorkUpArchive() {
         Run = Run->Next;
     }
     WritelnString("|________________________________________________________________________________________________________|\n");
-    DisposeProduct(Lp); //удаление дека
+    DisposeProduct(Beg); //удаление дека
     printf("\nОбработка архива закончена");
 
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");

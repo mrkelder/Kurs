@@ -45,7 +45,7 @@ typedef struct DynProd		  //Тип элемента дека
 	{							
 		ProductType  Inf;	  //информационная часть
 		struct DynProd* Next; //указатель на следующий элемент
-	} DynProduct;		      //синоним типа элемента дека
+	} DynProduct;
 
 #define KMax 100		//макс.кол-во компонентов кодификатора 
 #define PMax 200		//макс.кол-во компонентов архива изделий 

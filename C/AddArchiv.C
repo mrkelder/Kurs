@@ -10,7 +10,7 @@
 int AddArchive() {
     ProductType Product;
     DynProduct* Run; // текущий указатель дека архива 
-    DynProduct* Lp; // левый и правый указатели дека 
+    DynProduct* Beg; // левый и правый указатели дека 
     unsigned char Cond; // флаг 1-код найден в деке
     int Sr, np;
     if (SignArchive == 0) //архив не создан
@@ -26,7 +26,7 @@ int AddArchive() {
         SignArchive = 0;
         return 1;
     }
-    if (ReadFileOut(&np, &Lp) == 1) //дек не создан 
+    if (ReadFileOut(&np, &Beg) == 1) //дек не создан 
     {
         fclose(fAddTxt);
         return 1;
@@ -34,7 +34,7 @@ int AddArchive() {
     do { //Создание структуры изделия из строки файла 
         if (ReadProduct(fAddTxt, &Product) == 0) {
             Sr = Product.ActualKod; //код добавляемого изделия
-            Run = Lp; //начало просмотра слева
+            Run = Beg; //начало просмотра слева
             Cond = 0; //флаг - код не найден
             while (Run != NULL) //поиск кода изделия в деке
             {
@@ -50,8 +50,8 @@ int AddArchive() {
                 Run->Inf = Product; //запись информационной части        
                 //установка указателей для включения нового элемента в дек
                 //Добавление компонент в Дек с правой стороны
-                Run->Next = Lp;
-                Lp = Run;
+                Run->Next = Beg;
+                Beg = Run;
                 Run = NULL;
             }
             else // (Cond == 1)
@@ -60,8 +60,8 @@ int AddArchive() {
     } while (!feof(fAddTxt));
     fclose(fAddTxt);
     //Запись дека в архивный файл
-    WriteFileOut(Lp);
-    Lp = NULL;
+    WriteFileOut(Beg);
+    Beg = NULL;
     printf("\nДополнение архива закончено\n");
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");
     return 0;
