@@ -125,7 +125,7 @@ void SortKodif(int nk) {
 //-----------------------------------------ReversProduct()
 //–еверс дека изделий. ѕросмотр с левой стороны 
 //¬ставка в буферный дек с левой стороны
-void ReversProduct(DynProduct** Lp, DynProduct** Rp) {
+void ReversProduct(DynProduct** Lp) {
     DynProduct* LpBuf, *RunBuf; // указатели буферного дека архива 
     DynProduct* Run; // текущий указатель дека архива 
     LpBuf = NULL;
@@ -147,7 +147,7 @@ void ReversProduct(DynProduct** Lp, DynProduct** Rp) {
 //„ерез параметры возвращаютс€ количество элементов,
 //указатели на левый и правый концы дека
 //‘ункци€ возвращает 0, если дек создан, иначе 1
-int ReadFileOut(int* np, DynProduct** Lp, DynProduct** Rp) {
+int ReadFileOut(int* np, DynProduct** Lp) {
     ProductType Product;
     DynProduct* Run; // текущий указатель дека архива 
     if (SignArchive == 0) //флаг 1-архив создан
@@ -163,7 +163,7 @@ int ReadFileOut(int* np, DynProduct** Lp, DynProduct** Rp) {
         return 1;
     }
     *np = 0;
-    *Lp = NULL; *Rp = NULL;
+    *Lp = NULL;
     //считывание структур архива
     while (fread(&Product, sizeof(ProductType), 1, fArBin) == 1) { //выделение пам€ти дл€ элемента дека
         Run = (DynProduct*)malloc(sizeof(DynProduct));
@@ -173,12 +173,12 @@ int ReadFileOut(int* np, DynProduct** Lp, DynProduct** Rp) {
         *Lp = Run;
     }
     fclose(fArBin);
-    ReversProduct(Lp, Rp); // реверс стека
+    ReversProduct(Lp); // реверс стека
     return 0;
 } //-----ReadFileOut() 
 //-----------------------------------------DisposeProduct()
 //”даление дека изделий. ѕросмотр с левой стороны 
-void DisposeProduct(DynProduct* Lp, DynProduct* Rp) {
+void DisposeProduct(DynProduct* Lp) {
     DynProduct* Run; // текущий указатель дека архива 
     while (Lp != NULL) {
         Run = Lp;
@@ -189,7 +189,7 @@ void DisposeProduct(DynProduct* Lp, DynProduct* Rp) {
 //---------------------------------------------WriteFileOut()
 //«апись структур из дека в бинарный файл архива
 //ѕросмотр с левой стороны с последующим удалением дека 
-int WriteFileOut(DynProduct* Lp, DynProduct* Rp) {
+int WriteFileOut(DynProduct* Lp) {
     ProductType Product;
     DynProduct* Run; // текущий указатель дека архива 
     if ((fArBin = fopen(fArBinName, "wb")) == NULL) {
@@ -204,7 +204,7 @@ int WriteFileOut(DynProduct* Lp, DynProduct* Rp) {
         Run = Run->Next;
     }
     fclose(fArBin);
-    DisposeProduct(Lp, Rp); //удаление дека
+    DisposeProduct(Lp); //удаление дека
     return 0;
 } //-----WriteFileOut() 
 //-----------------------------------------------

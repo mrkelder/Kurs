@@ -10,14 +10,14 @@ int SortArchive() {
     ProductType Product;
     DynProduct* Runi;
     DynProduct* Runj; // текущие указатели дека архива 
-    DynProduct* Lp, * Rp; // левый и правый указатели стека (*Lp и есть сам стек)
+    DynProduct* Lp; // левый и правый указатели стека (*Lp и есть сам стек)
     if (!SignArchive) //архив не создан
     {
         printf("\nАрхив не создан. Режим отменяется.\n");
         wait_press_key("\nДля продолжения нажмите любую клавишу\n");
         return 1;
     }
-    ReadFileOut(&np, &Lp, &Rp); //Формирование архивного дека (чтение файла)
+    ReadFileOut(&np, &Lp); //Формирование архивного дека (чтение файла)
     //Сортировка дека по возрастанию "школьным" методом
 
     for (Runi = Lp; Runi != NULL; Runi = Runi->Next) // это сортировка школьным (не меняй)
@@ -27,8 +27,8 @@ int SortArchive() {
                 Runi->Inf = Runj->Inf;
                 Runj->Inf = Product;
             }
-    WriteFileOut(Lp, Rp); //запись дека в архивный файл
-    Lp = Rp = NULL;
+    WriteFileOut(Lp); //запись дека в архивный файл
+    Lp = NULL;
     printf("\nСортировка архива закончена.\n");
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");
     return 0;

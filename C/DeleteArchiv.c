@@ -9,7 +9,7 @@
 int DeleteArchive() {
     char Kod[11], KodPr[11];
     unsigned char Cond;
-    DynProduct* Lp, * Rp; // левый и правый указатели дека 
+    DynProduct* Lp; // левый и правый указатели дека 
     DynProduct* Del; // указатель на удаляемый элемент из дека
     DynProduct* Run; // текущий указатель дека архива 
     DynProduct* TempRun; // предыдущий элемент до удоляемого
@@ -21,7 +21,7 @@ int DeleteArchive() {
         wait_press_key("\nДля продолжения нажмите любую клавишу\n");
         return 1;
     }
-    ReadFileOut(&np, &Lp, &Rp); //создается архивный дек
+    ReadFileOut(&np, &Lp); //создается архивный дек
     //ввод кода удаляемого изделия
     printf("\nУкажите код удаляемого компонента: ");
     scanf("%s", &Kod);
@@ -53,14 +53,14 @@ int DeleteArchive() {
     if (Cond == 1) //компонент найден и удален
     {
         np--;
-        WriteFileOut(Lp, Rp); //запись дека в бинарный файл
-        Lp = Rp = NULL;
+        WriteFileOut(Lp); //запись дека в бинарный файл
+        Lp = NULL;
         printf("\nУдаление компонента из архива закончено");
     }
     else //компонент не найден
     {
-        DisposeProduct(Lp, Rp);
-        Lp = Rp = NULL;
+        DisposeProduct(Lp);
+        Lp = NULL;
         printf("\nВ архиве нет компонента с кодом %s", KodPr);
     }
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");

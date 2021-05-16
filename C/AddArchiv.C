@@ -10,7 +10,7 @@
 int AddArchive() {
     ProductType Product;
     DynProduct* Run; // текущий указатель дека архива 
-    DynProduct* Lp, * Rp; // левый и правый указатели дека 
+    DynProduct* Lp; // левый и правый указатели дека 
     unsigned char Cond; // флаг 1-код найден в деке
     int Sr, np;
     if (SignArchive == 0) //архив не создан
@@ -26,7 +26,7 @@ int AddArchive() {
         SignArchive = 0;
         return 1;
     }
-    if (ReadFileOut(&np, &Lp, &Rp) == 1) //дек не создан 
+    if (ReadFileOut(&np, &Lp) == 1) //дек не создан 
     {
         fclose(fAddTxt);
         return 1;
@@ -60,8 +60,8 @@ int AddArchive() {
     } while (!feof(fAddTxt));
     fclose(fAddTxt);
     //Запись дека в архивный файл
-    WriteFileOut(Lp, Rp);
-    Lp = Rp = NULL;
+    WriteFileOut(Lp);
+    Lp = NULL;
     printf("\nДополнение архива закончено\n");
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");
     return 0;

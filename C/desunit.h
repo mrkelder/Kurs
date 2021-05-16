@@ -37,8 +37,8 @@ typedef struct ProductT // тип компонента архива изделий
 typedef struct KodifTyp //тип компонента кодификатора изделий 
 	{				
 	char ActualKod[10]; // код изделия
-		 int Kod;
-		char Name[100];	// наименование изделия 
+	int Kod;
+	char Name[100];	// наименование изделия 
 	} KodifType;		//синоним типа компонента кодификатора изделий
 
 typedef struct DynProd		//Тип элемента дека 

@@ -326,7 +326,7 @@ void CheckProdDiapason(char* FileName, int nf, ProductAr* Prod) {
 void CheckKodifDiapason() {
     int i;
     for (i = 0; i < nk; i++)
-        if (strlen(Kodifs[i].ActualKod) != 10/*(Kodifs[i].Kod < 100000) || (Kodifs[i].Kod > 999999)*/) {
+        if (strlen(Kodifs[i].ActualKod) != 10) {
             FatalError = 1;
             sprintf(Sr,
                 "Файл Kodif.txt: в строке %d элемент 1 "

@@ -16,10 +16,10 @@ int SearchKodif(char* Kod, int nk);
 //Сортировка кодификатора по возрастанию кода продукта
 void SortKodif(int nk);
 //Реверс дека изделий. Просмотр с левой стороны 
-void ReversProduct(DynProduct **Lp, DynProduct **Rp);
+void ReversProduct(DynProduct **Lp);
 //Чтение бинарного файла архива и формирование дека структур 
-int ReadFileOut(int *np, DynProduct **Lp, DynProduct **Rp);
+int ReadFileOut(int *np, DynProduct **Lp);
 //Удаление дека изделий
-void DisposeProduct(DynProduct *Lp, DynProduct *Rp);
+void DisposeProduct(DynProduct *Lp);
 //Запись структур из дека в бинарный файл архива
-int WriteFileOut(DynProduct *Lp, DynProduct *Rp);
+int WriteFileOut(DynProduct *Lp);

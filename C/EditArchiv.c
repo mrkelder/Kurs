@@ -10,13 +10,12 @@ void MakeComponent(ProductType* Product);
 // Просмотр дека слева направо
 // Возвращает 1, если архив не создан, 0 - создан
 int ChangeArchive() {
-    // Оставь здесь int Kod, Kod1; , чтобы не испортить память
     int loop;
     char Kod4[11], Kod44[11];
     int np;
     unsigned char Cond = 0;
     ProductType Product;
-    DynProduct* Lp, * Rp; // левый и правый указатели очереди 
+    DynProduct* Lp; // левый и правый указатели очереди 
     DynProduct* Run; // текущий указатель очереди архива 
     if (!SignArchive) // архив не создан
     {
@@ -25,7 +24,7 @@ int ChangeArchive() {
         return 1;
     }
     //формирование архивного дека
-    ReadFileOut(&np, &Lp, &Rp);
+    ReadFileOut(&np, &Lp);
     //ввод кода изменяемого компонента
     printf("\nУкажите код изделия изменяемого компонента: ");
     scanf("%s", &Kod4);
@@ -41,8 +40,8 @@ int ChangeArchive() {
             Product = Run->Inf;
             MakeComponent(&Product); //ввод изменений в полях
             Run->Inf = Product; //запись измененной структуры в дек
-            WriteFileOut(Lp, Rp); //запись дека в архивный файл
-            Lp = Rp = NULL;
+            WriteFileOut(Lp); //запись дека в архивный файл
+            Lp = NULL;
             printf("Изменение компонента в архиве закончено\n");
             break;
         }

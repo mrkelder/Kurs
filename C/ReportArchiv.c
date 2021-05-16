@@ -6,7 +6,7 @@
 void WorkUpArchive() {
     int i = 0, j = 0;
     int np;
-    DynProduct* Lp, * Rp; // левый и правый указатели дека 
+    DynProduct* Lp; // левый и правый указатели дека 
     DynProduct* Run; // текущий указатель дека архива 
     DynProduct* Runi;
     DynProduct* Runj;
@@ -17,7 +17,7 @@ void WorkUpArchive() {
         printf("Архивный файл не создан. Режим отменяется");
         return;
     }
-    ReadFileOut(&np, &Lp, &Rp); //формирование архивного дека
+    ReadFileOut(&np, &Lp); //формирование архивного дека
 
     for (Runi = Lp; Runi != NULL; Runi = Runi->Next) // Сортировка по цене
         for (Runj = Lp; Runj != NULL; Runj = Runj->Next)
@@ -88,7 +88,7 @@ void WorkUpArchive() {
         Run = Run->Next;
     }
     WritelnString("|________________________________________________________________________________________________________|\n");
-    DisposeProduct(Lp, Rp); //удаление дека
+    DisposeProduct(Lp); //удаление дека
     printf("\nОбработка архива закончена");
 
     wait_press_key("\nДля продолжения нажмите любую клавишу\n");
