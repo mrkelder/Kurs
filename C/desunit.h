@@ -19,38 +19,38 @@
 //файловые переменные проекта
 FILE *fArTxt;		//файл исходных документов
 FILE *fArBin;		//архивный файл изделий
-FILE *fAddTxt;	//файл добавляемых документов
+FILE *fAddTxt;		//файл добавляемых документов
 FILE *fKodif;		//файл кодификатора изделий
 FILE *fRes;			//файл результатов контроля
 
-typedef struct ProductT // тип компонента архива изделий 
+typedef struct ProductT  // тип компонента архива изделий 
 	{			
-	char ActualKod[10]; // код изделия 
-	int Amount;             // количество штук
-	char Dimens[5];         // единица измерения (шт.)
-	double Price;           // цена изделия
-	int RecentlyArrived;    // пребывшие изделия за последние 24 часа
-	int Sold;               // проданные за последние 24 часа
-	int Possess;            // на складе
-	} ProductType;	 //синоним типа компонента архива изделий
+	char ActualKod[10];	 // код изделия 
+	int Amount;          // количество штук
+	char Dimens[5];      // единица измерения (шт.)
+	double Price;        // цена изделия
+	int RecentlyArrived; // прибывшие изделия за последние 24 часа
+	int Sold;            // проданные за последние 24 часа
+	int Possess;         // на складе
+	} ProductType;		 //синоним типа компонента архива изделий
 
 typedef struct KodifTyp //тип компонента кодификатора изделий 
 	{				
 	char ActualKod[10]; // код изделия
+	char Name[100];		// наименование изделия 
 	int Kod;
-	char Name[100];	// наименование изделия 
-	} KodifType;		//синоним типа компонента кодификатора изделий
+	} KodifType;	    //синоним типа компонента кодификатора изделий
 
-typedef struct DynProd		//Тип элемента дека 
+typedef struct DynProd		  //Тип элемента дека 
 	{							
-		ProductType  Inf;			//информационная часть
-		struct DynProd *Next;	//указатель на следующий элемент
-	} DynProduct;			      //синоним типа элемента дека
+		ProductType  Inf;	  //информационная часть
+		struct DynProd* Next; //указатель на следующий элемент
+	} DynProduct;		      //синоним типа элемента дека
 
 #define KMax 100		//макс.кол-во компонентов кодификатора 
 #define PMax 200		//макс.кол-во компонентов архива изделий 
 
-KodifType	 Kodif,   //компонент кодификатора
+KodifType	 Kodif,     //компонент кодификатора
 		Kodifs[KMax];   //массив компонентов кодификатора
 
 unsigned char SignArchive;  //Флаг создания архива
